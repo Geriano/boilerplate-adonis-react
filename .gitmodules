@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/Geriano/boilerplate-backend-adonis
+[submodule "react"]
+	path = react
+	url = https://github.com/Geriano/boilerplate-frontend-react

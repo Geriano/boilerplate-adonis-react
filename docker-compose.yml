@@ -1,0 +1,61 @@
+name: 'boilerplate-adonis-react'
+version: '3.1'
+services:
+  database:
+    container_name: boilerplate-database
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: boilerplate_node
+    ports:
+      - 5432:5432
+  adonis:
+    container_name: boilerplate-adonis
+    build:
+      dockerfile: ./Dockerfile.backend
+    command: node ace serve --watch
+    env_file:
+      - ./backend/.env
+    environment:
+      TZ: Asia/Jakarta
+      PG_HOST: host.docker.internal
+      PG_USER: root
+      PG_PASSWORD: root
+      PG_DB_NAME: boilerplate_node
+    ports:
+      - 3333:3333
+    volumes:
+      - ./backend/app:/backend/app
+      - ./backend/commands:/backend/commands
+      - ./backend/config:/backend/config
+      - ./backend/contracts:/backend/contracts
+      - ./backend/database:/backend/database
+      - ./backend/providers:/backend/providers
+      - ./backend/resources:/backend/resources
+      - ./backend/start:/backend/start
+      - ./backend/tests:/backend/tests
+      - ./backend/tmp:/backend/tmp
+      - ./backend/.adonisrc.json:/backend/.adonisrc.json
+      - ./backend/.env:/backend/.env
+      - ./backend/ace-manifest.json:/backend/ace-manifest.json
+      - ./backend/env.ts:/backend/env.ts
+      - ./backend/package.json:/backend/package.json
+      - ./backend/server.ts:/backend/server.ts
+      - ./backend/test.ts:/backend/test.ts
+  react:
+    container_name: boilerplate-react
+    build: 
+      dockerfile: ./Dockerfile.frontend
+    command: npx vite --host
+    ports:
+      - 5173:5173
+    volumes:
+      - ./react/public:/frontend/public
+      - ./react/src:/frontend/src
+      - ./react/.env:/frontend/.env
+      - ./react/index.html:/frontend/index.html
+      - ./react/package.json:/frontend/package.json
+      - ./react/postcss.config.cjs:/frontend/postcss.config.cjs
+      - ./react/tailwind.config.cjs:/frontend/tailwind.config.cjs
+      - ./react/vite.config.ts:/frontend/vite.config.ts

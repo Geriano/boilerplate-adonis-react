@@ -1,0 +1,5 @@
+FROM node
+COPY ./react /frontend
+WORKDIR /frontend
+RUN rm -rf node_modules
+RUN npm install --verbose
